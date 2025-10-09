@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Globe, Check, ChevronDown } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { useTheme } from "../contexts/ThemeContext";
@@ -220,15 +219,16 @@ export function CompactLanguageSelector() {
   );
 }
 
-// Settings page version with full details - ALWAYS WHITE THEME
+// Settings page version with full details
 export function DetailedLanguageSelector() {
   const { language, changeLanguage, t, getAvailableLanguages } = useLanguage();
-  // Remove useTheme - always use light theme
   const availableLanguages = getAvailableLanguages();
 
   return (
-    <div className="p-4 rounded-lg border bg-white border-gray-200">
-      <h3 className="font-semibold mb-3 text-gray-900">{t("language")}</h3>
+    <div className="p-4 rounded-lg border bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+      <h3 className="font-semibold mb-3 text-gray-900 dark:text-white">
+        {t("language")}
+      </h3>
 
       <div className="space-y-2">
         {availableLanguages.map((lang) => (
@@ -239,8 +239,8 @@ export function DetailedLanguageSelector() {
               w-full p-3 rounded-lg border text-left transition-all
               ${
                 language === lang.code
-                  ? "border-blue-500 bg-blue-50 text-blue-600"
-                  : "border-gray-300 hover:border-gray-400 text-gray-900 hover:bg-gray-50"
+                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                  : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700"
               }
             `}
           >
@@ -249,7 +249,9 @@ export function DetailedLanguageSelector() {
                 <div className="font-medium">{lang.nativeName}</div>
                 <div
                   className={`text-sm ${
-                    language === lang.code ? "text-blue-600" : "text-gray-500"
+                    language === lang.code
+                      ? "text-blue-600 dark:text-blue-400"
+                      : "text-gray-500 dark:text-gray-400"
                   }`}
                 >
                   {lang.name}
@@ -264,7 +266,7 @@ export function DetailedLanguageSelector() {
         ))}
       </div>
 
-      <div className="mt-3 text-xs text-gray-500">
+      <div className="mt-3 text-xs text-gray-500 dark:text-gray-400">
         {t("changeLanguage")} • {t("currentLanguage")}:{" "}
         {availableLanguages.find((l) => l.code === language)?.nativeName}
       </div>

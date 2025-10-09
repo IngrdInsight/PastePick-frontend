@@ -5,60 +5,34 @@ import { createContext, useContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("system"); // 'light', 'dark', or 'system'
-  const [actualTheme, setActualTheme] = useState("light"); // The actual theme being used
+  const [theme, setTheme] = useState("light"); // Default to 'light'
 
   useEffect(() => {
     // Load saved theme from localStorage
     const savedTheme = localStorage.getItem("pastepick-theme");
-    if (savedTheme) {
+    if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
       setTheme(savedTheme);
     }
   }, []);
 
   useEffect(() => {
-    const updateTheme = () => {
-      let newActualTheme = theme;
-
-      if (theme === "system") {
-        // Use system preference
-        newActualTheme = window.matchMedia("(prefers-color-scheme: dark)")
-          .matches
-          ? "dark"
-          : "light";
-      }
-
-      setActualTheme(newActualTheme);
-
-      // Update DOM
-      if (newActualTheme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    };
-
-    updateTheme();
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => {
-      if (theme === "system") {
-        updateTheme();
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    // Update DOM when theme changes
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   }, [theme]);
 
   const changeTheme = (newTheme) => {
-    setTheme(newTheme);
-    localStorage.setItem("pastepick-theme", newTheme);
+    if (newTheme === "light" || newTheme === "dark") {
+      setTheme(newTheme);
+      localStorage.setItem("pastepick-theme", newTheme);
+    }
   };
 
   const toggleTheme = () => {
-    const newTheme = actualTheme === "dark" ? "light" : "dark";
+    const newTheme = theme === "dark" ? "light" : "dark";
     changeTheme(newTheme);
   };
 
@@ -66,12 +40,11 @@ export const ThemeProvider = ({ children }) => {
     <ThemeContext.Provider
       value={{
         theme,
-        actualTheme,
         changeTheme,
         toggleTheme,
-        isDark: actualTheme === "dark",
-        isLight: actualTheme === "light",
-        availableThemes: ["light", "dark", "system"],
+        isDark: theme === "dark",
+        isLight: theme === "light",
+        availableThemes: ["light", "dark"],
       }}
     >
       {children}
