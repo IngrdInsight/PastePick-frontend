@@ -1,13 +1,4 @@
-import {
-  User,
-  Bell,
-  Shield,
-  HelpCircle,
-  Info,
-  ChevronRight,
-  Moon,
-  Globe,
-} from "lucide-react";
+import { Shield, HelpCircle, Info, ChevronRight, Moon } from "lucide-react";
 import { useLanguage } from "../../contexts/LanguageContext";
 import { DetailedLanguageSelector } from "../LanguageSelector";
 
@@ -15,13 +6,6 @@ export default function SettingsPage() {
   const { t } = useLanguage();
 
   const settingSections = [
-    {
-      title: t("account"),
-      items: [
-        { icon: User, label: t("profile"), value: t("updateInfo") },
-        { icon: Bell, label: t("notifications"), value: t("manageAlerts") },
-      ],
-    },
     {
       title: t("preferences"),
       items: [
