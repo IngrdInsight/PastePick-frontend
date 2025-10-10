@@ -220,15 +220,15 @@ export function CompactLanguageSelector() {
   );
 }
 
-// Settings page version with full details - ALWAYS WHITE THEME
+// Settings page version with full details - THEME AWARE
 export function DetailedLanguageSelector() {
   const { language, changeLanguage, t, getAvailableLanguages } = useLanguage();
-  // Remove useTheme - always use light theme
+  const { isDark } = useTheme();
   const availableLanguages = getAvailableLanguages();
 
   return (
-    <div className="p-4 rounded-lg border bg-white border-gray-200">
-      <h3 className="font-semibold mb-3 text-gray-900">{t("language")}</h3>
+    <div className="p-4 rounded-lg border bg-card-bg border-card-border">
+      <h3 className="font-semibold mb-3 text-foreground">{t("language")}</h3>
 
       <div className="space-y-2">
         {availableLanguages.map((lang) => (
@@ -239,8 +239,8 @@ export function DetailedLanguageSelector() {
               w-full p-3 rounded-lg border text-left transition-all
               ${
                 language === lang.code
-                  ? "border-blue-500 bg-blue-50 text-blue-600"
-                  : "border-gray-300 hover:border-gray-400 text-gray-900 hover:bg-gray-50"
+                  ? "border-primary bg-primary-light text-primary"
+                  : "border-card-border text-foreground hover:bg-background-secondary"
               }
             `}
           >
@@ -249,7 +249,9 @@ export function DetailedLanguageSelector() {
                 <div className="font-medium">{lang.nativeName}</div>
                 <div
                   className={`text-sm ${
-                    language === lang.code ? "text-blue-600" : "text-gray-500"
+                    language === lang.code
+                      ? "text-primary"
+                      : "text-foreground-secondary"
                   }`}
                 >
                   {lang.name}
@@ -257,14 +259,14 @@ export function DetailedLanguageSelector() {
               </div>
 
               {language === lang.code && (
-                <div className="w-2 h-2 rounded-full bg-blue-600" />
+                <div className="w-2 h-2 rounded-full bg-primary" />
               )}
             </div>
           </button>
         ))}
       </div>
 
-      <div className="mt-3 text-xs text-gray-500">
+      <div className="mt-3 text-xs text-foreground-muted">
         {t("changeLanguage")} • {t("currentLanguage")}:{" "}
         {availableLanguages.find((l) => l.code === language)?.nativeName}
       </div>

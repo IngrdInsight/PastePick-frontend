@@ -462,8 +462,10 @@ const ingredientTranslations = {
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState("en");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Load saved language from localStorage
     const savedLanguage = localStorage.getItem("pastepick-language");
     if (savedLanguage && translations[savedLanguage]) {
@@ -480,7 +482,9 @@ export const LanguageProvider = ({ children }) => {
   const changeLanguage = (lang) => {
     if (translations[lang]) {
       setLanguage(lang);
-      localStorage.setItem("pastepick-language", lang);
+      if (mounted) {
+        localStorage.setItem("pastepick-language", lang);
+      }
     }
   };
 
@@ -526,6 +530,11 @@ export const LanguageProvider = ({ children }) => {
     const languages = getAvailableLanguages();
     return languages.find((lang) => lang.code === language) || languages[0];
   };
+
+  // Prevent flash during hydration
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <LanguageContext.Provider

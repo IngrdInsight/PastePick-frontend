@@ -61,8 +61,6 @@ export default function Home() {
             onStartCamera={handleStartCamera}
           />
         );
-      case "recent":
-        return <RecentPage onProductScanned={handleProductScanned} />;
       case "settings":
         return <SettingsPage />;
       default:
@@ -76,7 +74,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
+    <div className="min-h-screen bg-background">
       {currentView === "product"
         ? <ProductPage product={scannedProduct} onBack={handleBackToMain} />
         : currentView === "camera"

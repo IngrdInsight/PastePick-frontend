@@ -1,22 +1,138 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@variant dark (.dark &);
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Background Colors */
+  --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
+  --color-background-tertiary: var(--background-tertiary);
+  
+  /* Foreground/Text Colors */
+  --color-foreground: var(--foreground);
+  --color-foreground-secondary: var(--foreground-secondary);
+  --color-foreground-muted: var(--foreground-muted);
+  
+  /* Primary Brand Colors */
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  
+  /* Brand/Logo Color */
+  --color-brand: var(--brand);
+  
+  /* Success Colors */
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  
+  /* Warning Colors */
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  
+  /* Error Colors */
+  --color-error: var(--error);
+  --color-error-light: var(--error-light);
+  
+  /* Border Colors */
+  --color-border: var(--border);
+  --color-border-secondary: var(--border-secondary);
+  
+  /* Card/Surface Colors */
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Light Mode (Default) */
+:root {
+  /* Background Colors */
+  --background: #ffffff;
+  --background-secondary: #f9fafb;
+  --background-tertiary: #f3f4f6;
+  
+  /* Foreground/Text Colors */
+  --foreground: #171717;
+  --foreground-secondary: #6b7280;
+  --foreground-muted: #9ca3af;
+  
+  /* Primary Brand Colors */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #dbeafe;
+  
+  /* Brand/Logo Color */
+  --brand: #2563eb;
+  
+  /* Success Colors */
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  
+  /* Warning Colors */
+  --warning: #eab308;
+  --warning-light: #fef9c3;
+  
+  /* Error Colors */
+  --error: #dc2626;
+  --error-light: #fee2e2;
+  
+  /* Border Colors */
+  --border: #e5e7eb;
+  --border-secondary: #d1d5db;
+  
+  /* Card/Surface Colors */
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  
+  /* Gradient Colors */
+  --gradient-start: #eff6ff;
+  --gradient-end: #dcfce7;
+}
+
+/* Dark Mode */
+.dark {
+  /* Background Colors */
+  --background: #0a0a0a;
+  --background-secondary: #18181b;
+  --background-tertiary: #27272a;
+  
+  /* Foreground/Text Colors */
+  --foreground: #ededed;
+  --foreground-secondary: #a1a1aa;
+  --foreground-muted: #71717a;
+  
+  /* Primary Brand Colors */
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-light: #1e3a8a;
+  
+  /* Brand/Logo Color */
+  --brand: #60a5fa;
+  
+  /* Success Colors */
+  --success: #22c55e;
+  --success-light: #14532d;
+  
+  /* Warning Colors */
+  --warning: #facc15;
+  --warning-light: #713f12;
+  
+  /* Error Colors */
+  --error: #ef4444;
+  --error-light: #7f1d1d;
+  
+  /* Border Colors */
+  --border: #3f3f46;
+  --border-secondary: #52525b;
+  
+  /* Card/Surface Colors */
+  --card-bg: #18181b;
+  --card-border: #3f3f46;
+  
+  /* Gradient Colors */
+  --gradient-start: #18181b;
+  --gradient-end: #27272a;
 }
 
 body {

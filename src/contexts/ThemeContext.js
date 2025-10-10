@@ -5,18 +5,22 @@ import { createContext, useContext, useState, useEffect } from "react";
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("system"); // 'light', 'dark', or 'system'
-  const [actualTheme, setActualTheme] = useState("light"); // The actual theme being used
+  const [theme, setTheme] = useState("light"); // Default to light instead of system
+  const [actualTheme, setActualTheme] = useState("light");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     // Load saved theme from localStorage
     const savedTheme = localStorage.getItem("pastepick-theme");
-    if (savedTheme) {
+    if (savedTheme && (savedTheme === "light" || savedTheme === "dark")) {
       setTheme(savedTheme);
     }
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
+
     const updateTheme = () => {
       let newActualTheme = theme;
 
@@ -50,17 +54,24 @@ export const ThemeProvider = ({ children }) => {
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const changeTheme = (newTheme) => {
     setTheme(newTheme);
-    localStorage.setItem("pastepick-theme", newTheme);
+    if (mounted) {
+      localStorage.setItem("pastepick-theme", newTheme);
+    }
   };
 
   const toggleTheme = () => {
     const newTheme = actualTheme === "dark" ? "light" : "dark";
     changeTheme(newTheme);
   };
+
+  // Prevent flash of unstyled content
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <ThemeContext.Provider
@@ -71,7 +82,7 @@ export const ThemeProvider = ({ children }) => {
         toggleTheme,
         isDark: actualTheme === "dark",
         isLight: actualTheme === "light",
-        availableThemes: ["light", "dark", "system"],
+        availableThemes: ["light", "dark"],
       }}
     >
       {children}

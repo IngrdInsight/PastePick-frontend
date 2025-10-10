@@ -17,12 +17,11 @@ import {
 export default function ProductPage({ product, onBack }) {
   const [activeTab, setActiveTab] = useState("ingredients");
 
-  // Sample product data - you'll replace this with real analysis data
   const sampleProduct = product || {
     name: "Sensodyne Pronamel Gentle Whitening",
     brand: "Sensodyne",
     image: "🦷",
-    overallScore: 8.7, // 1-10 scale instead of percentage
+    overallScore: 8.7,
     totalIngredients: 12,
     overallAssessment: "Excellent choice with high-quality, safe ingredients",
     keyIngredients: {
@@ -47,11 +46,11 @@ export default function ProductPage({ product, onBack }) {
   };
 
   const getScoreColor = (score) => {
-    if (score >= 8.5) return "text-green-600 bg-green-50 border-green-200";
-    if (score >= 7.0) return "text-blue-600 bg-blue-50 border-blue-200";
-    if (score >= 5.5) return "text-yellow-600 bg-yellow-50 border-yellow-200";
+    if (score >= 8.5) return "text-success bg-success-light border-success";
+    if (score >= 7.0) return "text-primary bg-primary-light border-primary";
+    if (score >= 5.5) return "text-warning bg-warning-light border-warning";
     if (score >= 3.5) return "text-orange-600 bg-orange-50 border-orange-200";
-    return "text-red-600 bg-red-50 border-red-200";
+    return "text-error bg-error-light border-error";
   };
 
   const getScoreLabel = (score) => {
@@ -85,82 +84,84 @@ export default function ProductPage({ product, onBack }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background-secondary">
       {/* Header */}
-      <header className="bg-white shadow-sm sticky top-0 z-10">
+      <header className="bg-card-bg shadow-sm sticky top-0 z-10">
         <div className="flex items-center justify-between p-4">
           <button
             onClick={onBack}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-background-secondary rounded-full transition-colors"
           >
-            <ArrowLeft size={24} />
+            <ArrowLeft size={24} className="text-foreground" />
           </button>
-          <p className="font-semibold text-gray-900">Ingredient Analysis</p>
+          <p className="font-semibold text-foreground">Ingredient Analysis</p>
           <div className="flex space-x-2">
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <Heart size={20} />
+            <button className="p-2 hover:bg-background-secondary rounded-full transition-colors">
+              <Heart size={20} className="text-foreground" />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-              <Share size={20} />
+            <button className="p-2 hover:bg-background-secondary rounded-full transition-colors">
+              <Share size={20} className="text-foreground" />
             </button>
           </div>
         </div>
       </header>
 
       {/* Product Overview */}
-      <div className="bg-white p-6">
+      <div className="bg-card-bg p-6">
         {/* Product Image and Basic Info */}
         <div className="flex items-start space-x-4 mb-6">
-          <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center text-4xl">
+          <div className="w-20 h-20 bg-background-tertiary rounded-lg flex items-center justify-center text-4xl">
             {sampleProduct.image}
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-bold text-gray-900 mb-1">
+            <h2 className="text-xl font-bold text-foreground mb-1">
               {sampleProduct.name}
             </h2>
-            <p className="text-gray-600 mb-3">{sampleProduct.brand}</p>
+            <p className="text-foreground-secondary mb-3">
+              {sampleProduct.brand}
+            </p>
             <div className="flex items-center space-x-2">
-              <Star className="text-yellow-500" size={16} />
-              <span className="text-sm font-medium">4.5/5</span>
-              <span className="text-sm text-gray-500">
+              <Star className="text-warning" size={16} />
+              <span className="text-sm font-medium text-foreground">4.5/5</span>
+              <span className="text-sm text-foreground-muted">
                 ({sampleProduct.totalIngredients} ingredients analyzed)
               </span>
             </div>
           </div>
         </div>
 
-        {/* Overall Score - 1-10 Scale */}
+        {/* Overall Score */}
         <div className="text-center mb-6">
           <div className="inline-flex flex-col items-center">
-            <div className="text-5xl font-bold text-blue-600 mb-2">
+            <div className="text-5xl font-bold text-primary mb-2">
               {sampleProduct.overallScore}
             </div>
-            <div className="text-lg font-medium text-gray-900 mb-1">
+            <div className="text-lg font-medium text-foreground mb-1">
               {getScoreLabel(sampleProduct.overallScore)}
             </div>
-            <div className="text-sm text-gray-600 mb-3">
+            <div className="text-sm text-foreground-secondary mb-3">
               Overall Safety Score (1-10)
             </div>
 
             {/* Score visualization */}
-            <div className="w-48 h-3 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-48 h-3 bg-background-tertiary rounded-full overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all duration-1000 ${
                   sampleProduct.overallScore >= 8.5
-                    ? "bg-green-500"
+                    ? "bg-success"
                     : sampleProduct.overallScore >= 7.0
-                      ? "bg-blue-500"
+                      ? "bg-primary"
                       : sampleProduct.overallScore >= 5.5
-                        ? "bg-yellow-500"
+                        ? "bg-warning"
                         : sampleProduct.overallScore >= 3.5
                           ? "bg-orange-500"
-                          : "bg-red-500"
+                          : "bg-error"
                 }`}
                 style={{ width: `${(sampleProduct.overallScore / 10) * 100}%` }}
               ></div>
             </div>
 
-            <p className="text-sm text-gray-600 mt-2 max-w-sm">
+            <p className="text-sm text-foreground-secondary mt-2 max-w-sm">
               {sampleProduct.overallAssessment}
             </p>
           </div>
@@ -170,17 +171,17 @@ export default function ProductPage({ product, onBack }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           {/* Positive Ingredients */}
           {sampleProduct.keyIngredients.positive.length > 0 && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+            <div className="bg-success-light border border-success rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-3">
-                <TrendingUp className="text-green-600" size={18} />
-                <h3 className="font-semibold text-green-900">Key Benefits</h3>
+                <TrendingUp className="text-success" size={18} />
+                <h3 className="font-semibold text-foreground">Key Benefits</h3>
               </div>
               <div className="space-y-1">
                 {sampleProduct.keyIngredients.positive.map(
                   (ingredient, index) => (
                     <div
                       key={index}
-                      className="text-sm text-green-800 flex items-center space-x-2"
+                      className="text-sm text-foreground flex items-center space-x-2"
                     >
                       <CheckCircle size={14} />
                       <span>{ingredient}</span>
@@ -193,17 +194,17 @@ export default function ProductPage({ product, onBack }) {
 
           {/* Negative Ingredients */}
           {sampleProduct.keyIngredients.negative.length > 0 && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <div className="bg-error-light border border-error rounded-lg p-4">
               <div className="flex items-center space-x-2 mb-3">
-                <TrendingDown className="text-red-600" size={18} />
-                <h3 className="font-semibold text-red-900">Main Concerns</h3>
+                <TrendingDown className="text-error" size={18} />
+                <h3 className="font-semibold text-foreground">Main Concerns</h3>
               </div>
               <div className="space-y-1">
                 {sampleProduct.keyIngredients.negative.map(
                   (ingredient, index) => (
                     <div
                       key={index}
-                      className="text-sm text-red-800 flex items-center space-x-2"
+                      className="text-sm text-foreground flex items-center space-x-2"
                     >
                       <AlertTriangle size={14} />
                       <span>{ingredient}</span>
@@ -216,41 +217,45 @@ export default function ProductPage({ product, onBack }) {
         </div>
 
         {/* Score Breakdown */}
-        <div className="bg-gray-50 rounded-lg p-4">
-          <h3 className="font-semibold text-gray-900 mb-3">
+        <div className="bg-background-secondary rounded-lg p-4">
+          <h3 className="font-semibold text-foreground mb-3">
             Ingredient Categories
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-success">
                 {sampleProduct.scoreBreakdown.beneficial}
               </div>
-              <div className="text-xs text-gray-600">Beneficial</div>
+              <div className="text-xs text-foreground-secondary">
+                Beneficial
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-2xl font-bold text-primary">
                 {sampleProduct.scoreBreakdown.moderate}
               </div>
-              <div className="text-xs text-gray-600">Moderate</div>
+              <div className="text-xs text-foreground-secondary">Moderate</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">
                 {sampleProduct.scoreBreakdown.concerning}
               </div>
-              <div className="text-xs text-gray-600">Concerning</div>
+              <div className="text-xs text-foreground-secondary">
+                Concerning
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-600">
+              <div className="text-2xl font-bold text-foreground-muted">
                 {sampleProduct.scoreBreakdown.unknown}
               </div>
-              <div className="text-xs text-gray-600">Unknown</div>
+              <div className="text-xs text-foreground-secondary">Unknown</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <div className="bg-white border-b">
+      <div className="bg-card-bg border-b border-border">
         <div className="flex overflow-x-auto">
           {[
             { id: "ingredients", label: "Ingredients" },
@@ -263,8 +268,8 @@ export default function ProductPage({ product, onBack }) {
               onClick={() => setActiveTab(tab.id)}
               className={`flex-shrink-0 px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
                 activeTab === tab.id
-                  ? "border-blue-600 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
+                  ? "border-primary text-primary"
+                  : "border-transparent text-foreground-muted hover:text-foreground"
               }`}
             >
               {tab.label}
@@ -281,7 +286,6 @@ export default function ProductPage({ product, onBack }) {
 
 // Ingredients Tab Component
 function IngredientsTab({ product }) {
-  // Mock ingredients with individual scores
   const ingredients = [
     {
       name: "Potassium Nitrate",
@@ -342,39 +346,44 @@ function IngredientsTab({ product }) {
   const getCategoryColor = (category, score) => {
     switch (category) {
       case "beneficial":
-        return "bg-green-100 text-green-800 border-green-200";
+        return "bg-success-light text-success border-success";
       case "moderate":
-        return "bg-blue-100 text-blue-800 border-blue-200";
+        return "bg-primary-light text-primary border-primary";
       case "concerning":
-        return "bg-red-100 text-red-800 border-red-200";
+        return "bg-error-light text-error border-error";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-background-tertiary text-foreground-muted border-border";
     }
   };
 
   const getScoreColor = (score) => {
-    if (score >= 8.5) return "text-green-600";
-    if (score >= 7.0) return "text-blue-600";
-    if (score >= 5.5) return "text-yellow-600";
+    if (score >= 8.5) return "text-success";
+    if (score >= 7.0) return "text-primary";
+    if (score >= 5.5) return "text-warning";
     if (score >= 3.5) return "text-orange-600";
-    return "text-red-600";
+    return "text-error";
   };
 
   return (
     <div className="p-4 space-y-4">
-      <div className="text-sm text-gray-600 mb-4">
+      <div className="text-sm text-foreground-secondary mb-4">
         Found {ingredients.length} ingredients • Analyzed with our safety
         database
       </div>
 
       {ingredients.map((ingredient, index) => (
-        <div key={index} className="bg-white p-4 rounded-lg shadow-sm border">
+        <div
+          key={index}
+          className="bg-card-bg p-4 rounded-lg shadow-sm border border-card-border"
+        >
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-900 mb-1">
+              <h3 className="font-semibold text-foreground mb-1">
                 {ingredient.name}
               </h3>
-              <p className="text-sm text-gray-600 mb-2">{ingredient.purpose}</p>
+              <p className="text-sm text-foreground-secondary mb-2">
+                {ingredient.purpose}
+              </p>
               <span
                 className={`text-xs px-2 py-1 rounded-full font-medium border ${getCategoryColor(ingredient.category)}`}
               >
@@ -388,22 +397,24 @@ function IngredientsTab({ product }) {
               >
                 {ingredient.score}/10
               </div>
-              <div className="text-xs text-gray-500">Safety Score</div>
+              <div className="text-xs text-foreground-muted">Safety Score</div>
             </div>
           </div>
 
-          <p className="text-sm text-gray-700 mb-3">{ingredient.description}</p>
+          <p className="text-sm text-foreground mb-3">
+            {ingredient.description}
+          </p>
 
           {ingredient.benefits.length > 0 && (
             <div className="mb-2">
-              <div className="text-xs font-medium text-green-700 mb-1">
+              <div className="text-xs font-medium text-success mb-1">
                 Benefits:
               </div>
               <div className="flex flex-wrap gap-1">
                 {ingredient.benefits.map((benefit, i) => (
                   <span
                     key={i}
-                    className="text-xs bg-green-50 text-green-700 px-2 py-1 rounded"
+                    className="text-xs bg-success-light text-success px-2 py-1 rounded"
                   >
                     {benefit}
                   </span>
@@ -414,14 +425,14 @@ function IngredientsTab({ product }) {
 
           {ingredient.concerns.length > 0 && (
             <div>
-              <div className="text-xs font-medium text-red-700 mb-1">
+              <div className="text-xs font-medium text-error mb-1">
                 Concerns:
               </div>
               <div className="space-y-1">
                 {ingredient.concerns.map((concern, i) => (
                   <div
                     key={i}
-                    className="text-xs text-red-600 flex items-center space-x-2"
+                    className="text-xs text-error flex items-center space-x-2"
                   >
                     <AlertTriangle size={12} />
                     <span>{concern}</span>
@@ -440,9 +451,9 @@ function IngredientsTab({ product }) {
 function SummaryTab({ product }) {
   return (
     <div className="p-4 space-y-6">
-      <div className="bg-white p-4 rounded-lg shadow-sm border">
-        <h3 className="font-semibold text-gray-900 mb-3">Overall Analysis</h3>
-        <p className="text-gray-700 text-sm leading-relaxed mb-4">
+      <div className="bg-card-bg p-4 rounded-lg shadow-sm border border-card-border">
+        <h3 className="font-semibold text-foreground mb-3">Overall Analysis</h3>
+        <p className="text-foreground text-sm leading-relaxed mb-4">
           This toothpaste received a score of{" "}
           <strong>{product.overallScore}/10</strong> based on the analysis of{" "}
           {product.totalIngredients} ingredients.
@@ -450,37 +461,41 @@ function SummaryTab({ product }) {
         </p>
 
         <div className="grid grid-cols-2 gap-4 mb-4">
-          <div className="text-center p-3 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600">
+          <div className="text-center p-3 bg-success-light rounded-lg">
+            <div className="text-2xl font-bold text-success">
               {product.scoreBreakdown.beneficial}
             </div>
-            <div className="text-sm text-green-700">Beneficial Ingredients</div>
+            <div className="text-sm text-foreground">
+              Beneficial Ingredients
+            </div>
           </div>
-          <div className="text-center p-3 bg-red-50 rounded-lg">
-            <div className="text-2xl font-bold text-red-600">
+          <div className="text-center p-3 bg-error-light rounded-lg">
+            <div className="text-2xl font-bold text-error">
               {product.scoreBreakdown.concerning}
             </div>
-            <div className="text-sm text-red-700">Concerning Ingredients</div>
+            <div className="text-sm text-foreground">
+              Concerning Ingredients
+            </div>
           </div>
         </div>
 
         <div className="space-y-3">
           <div className="flex items-center space-x-2">
-            <CheckCircle className="text-green-600" size={16} />
-            <span className="text-sm">
+            <CheckCircle className="text-success" size={16} />
+            <span className="text-sm text-foreground">
               Contains proven effective ingredients for oral health
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Shield className="text-blue-600" size={16} />
-            <span className="text-sm">
+            <Shield className="text-primary" size={16} />
+            <span className="text-sm text-foreground">
               Generally safe for daily use by most adults
             </span>
           </div>
           {product.scoreBreakdown.concerning > 0 && (
             <div className="flex items-center space-x-2">
-              <AlertTriangle className="text-amber-600" size={16} />
-              <span className="text-sm">
+              <AlertTriangle className="text-warning" size={16} />
+              <span className="text-sm text-foreground">
                 Contains some ingredients that may cause sensitivity in certain
                 individuals
               </span>
@@ -489,9 +504,9 @@ function SummaryTab({ product }) {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow-sm border">
-        <h3 className="font-semibold text-gray-900 mb-3">Recommendations</h3>
-        <div className="space-y-2 text-sm text-gray-700">
+      <div className="bg-card-bg p-4 rounded-lg shadow-sm border border-card-border">
+        <h3 className="font-semibold text-foreground mb-3">Recommendations</h3>
+        <div className="space-y-2 text-sm text-foreground">
           {product.overallScore >= 8.5 && (
             <p>
               ✅ <strong>Highly Recommended:</strong> This is an excellent
@@ -530,7 +545,7 @@ function SummaryTab({ product }) {
 function ConcernsTab({ product }) {
   return (
     <div className="p-4 space-y-4">
-      <div className="text-sm text-gray-600 mb-4">
+      <div className="text-sm text-foreground-secondary mb-4">
         Potential issues identified in this product
       </div>
 
@@ -539,18 +554,18 @@ function ConcernsTab({ product }) {
             {product.primaryConcerns.map((concern, index) => (
               <div
                 key={index}
-                className="bg-red-50 border border-red-200 p-4 rounded-lg"
+                className="bg-error-light border border-error p-4 rounded-lg"
               >
                 <div className="flex items-start space-x-3">
                   <AlertTriangle
-                    className="text-red-600 mt-1 flex-shrink-0"
+                    className="text-error mt-1 flex-shrink-0"
                     size={18}
                   />
                   <div>
-                    <p className="text-red-800 font-medium text-sm mb-2">
+                    <p className="text-foreground font-medium text-sm mb-2">
                       {concern}
                     </p>
-                    <div className="text-red-700 text-xs">
+                    <div className="text-foreground-secondary text-xs">
                       <p>
                         <strong>What this means:</strong> This ingredient may
                         cause adverse reactions in some individuals.
@@ -569,14 +584,14 @@ function ConcernsTab({ product }) {
               </div>
             ))}
 
-            <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+            <div className="bg-primary-light border border-primary p-4 rounded-lg">
               <div className="flex items-start space-x-3">
-                <Shield className="text-blue-600 mt-1" size={18} />
+                <Shield className="text-primary mt-1" size={18} />
                 <div>
-                  <h3 className="text-blue-800 font-medium text-sm mb-2">
+                  <h3 className="text-foreground font-medium text-sm mb-2">
                     General Safety Tips
                   </h3>
-                  <ul className="text-blue-700 text-xs space-y-1">
+                  <ul className="text-foreground-secondary text-xs space-y-1">
                     <li>
                       • Always read ingredient labels if you have known
                       allergies
@@ -595,11 +610,11 @@ function ConcernsTab({ product }) {
             </div>
           </div>
         : <div className="text-center py-8">
-            <CheckCircle className="mx-auto text-green-500 mb-4" size={48} />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <CheckCircle className="mx-auto text-success mb-4" size={48} />
+            <h3 className="text-lg font-semibold text-foreground mb-2">
               No Major Concerns
             </h3>
-            <p className="text-gray-600 text-sm">
+            <p className="text-foreground-secondary text-sm">
               This product has no significant safety concerns for most users.
             </p>
           </div>}
@@ -611,7 +626,7 @@ function ConcernsTab({ product }) {
 function BenefitsTab({ product }) {
   return (
     <div className="p-4 space-y-4">
-      <div className="text-sm text-gray-600 mb-4">
+      <div className="text-sm text-foreground-secondary mb-4">
         Key benefits and positive aspects of this product
       </div>
 
@@ -620,18 +635,18 @@ function BenefitsTab({ product }) {
             {product.primaryBenefits.map((benefit, index) => (
               <div
                 key={index}
-                className="bg-green-50 border border-green-200 p-4 rounded-lg"
+                className="bg-success-light border border-success p-4 rounded-lg"
               >
                 <div className="flex items-start space-x-3">
                   <CheckCircle
-                    className="text-green-600 mt-1 flex-shrink-0"
+                    className="text-success mt-1 flex-shrink-0"
                     size={18}
                   />
                   <div>
-                    <p className="text-green-800 font-medium text-sm mb-2">
+                    <p className="text-foreground font-medium text-sm mb-2">
                       {benefit}
                     </p>
-                    <div className="text-green-700 text-xs">
+                    <div className="text-foreground-secondary text-xs">
                       <p>
                         This ingredient or property contributes positively to
                         oral health and safety.
@@ -642,16 +657,16 @@ function BenefitsTab({ product }) {
               </div>
             ))}
 
-            <div className="bg-white border border-gray-200 p-4 rounded-lg">
-              <h3 className="font-semibold text-gray-900 mb-3">
+            <div className="bg-card-bg border border-card-border p-4 rounded-lg">
+              <h3 className="font-semibold text-foreground mb-3">
                 Why These Ingredients Matter
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <h4 className="font-medium text-gray-800 mb-2">
+                  <h4 className="font-medium text-foreground mb-2">
                     🦷 Oral Health Benefits
                   </h4>
-                  <ul className="text-gray-600 space-y-1 text-xs">
+                  <ul className="text-foreground-secondary space-y-1 text-xs">
                     <li>• Cavity prevention</li>
                     <li>• Enamel strengthening</li>
                     <li>• Plaque reduction</li>
@@ -659,10 +674,10 @@ function BenefitsTab({ product }) {
                   </ul>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-800 mb-2">
+                  <h4 className="font-medium text-foreground mb-2">
                     ✅ Safety Benefits
                   </h4>
-                  <ul className="text-gray-600 space-y-1 text-xs">
+                  <ul className="text-foreground-secondary space-y-1 text-xs">
                     <li>• FDA approved ingredients</li>
                     <li>• Clinically tested</li>
                     <li>• Natural components</li>
@@ -673,11 +688,11 @@ function BenefitsTab({ product }) {
             </div>
           </div>
         : <div className="text-center py-8">
-            <AlertTriangle className="mx-auto text-amber-500 mb-4" size={48} />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            <AlertTriangle className="mx-auto text-warning mb-4" size={48} />
+            <h3 className="text-lg font-semibold text-foreground mb-2">
               Limited Benefits
             </h3>
-            <p className="text-gray-600 text-sm">
+            <p className="text-foreground-secondary text-sm">
               This product has fewer beneficial ingredients than recommended.
             </p>
           </div>}

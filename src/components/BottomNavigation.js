@@ -15,7 +15,7 @@ export default function BottomNavigation({
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 safe-area-pb">
+    <div className="fixed bottom-0 left-0 right-0 bg-card-bg border-t border-border px-2 py-2 safe-area-pb">
       <div className="flex justify-around items-center max-w-md mx-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -41,8 +41,8 @@ export default function BottomNavigation({
                 ? <div
                     className={`p-3 rounded-full shadow-lg transition-colors ${
                       isActive
-                        ? "bg-blue-600 text-white"
-                        : "bg-blue-600 text-white hover:bg-blue-700"
+                        ? "bg-primary text-white"
+                        : "bg-primary text-white hover:bg-primary-hover"
                     }`}
                   >
                     <Icon size={24} />
@@ -50,8 +50,8 @@ export default function BottomNavigation({
                 : <div
                     className={`p-2 rounded-lg transition-colors ${
                       isActive
-                        ? "text-blue-600 bg-blue-50"
-                        : "text-gray-500 hover:text-gray-700"
+                        ? "text-primary bg-primary-light"
+                        : "text-foreground-muted hover:text-foreground"
                     }`}
                   >
                     <Icon size={20} />
@@ -60,8 +60,8 @@ export default function BottomNavigation({
               {/* Label */}
               <span
                 className={`text-xs mt-1 font-medium transition-colors ${
-                  isActive ? "text-blue-600" : "text-gray-500"
-                } ${isScan ? "text-blue-600" : ""}`}
+                  isActive ? "text-primary" : "text-foreground-muted"
+                } ${isScan ? "text-primary" : ""}`}
               >
                 {tab.label}
               </span>
