@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+
+
 import BottomNavigation from "../components/BottomNavigation";
 import HomePage from "../components/pages/HomePage";
 import ScanPage from "../components/pages/ScanPage";
