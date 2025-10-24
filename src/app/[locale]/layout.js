@@ -1,20 +1,19 @@
-"use client";
-
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { LanguageProvider } from "../contexts/LanguageContext";
-import '@mantine/core/styles.css';
-import { createTheme, MantineProvider } from '@mantine/core';
+import "../globals.css";
+import "@mantine/core/styles.css";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
+import { MantineWrapper } from "@/app/MantineWrapper.js";
+import Navigation from "@/components/navigation.js";
 
 const inter = Inter({ subsets: ["latin"] });
-const theme = createTheme({
-    /** Put your mantine theme override here */
-});
 
+export default async function RootLayout({ children, params }) {
+  const { locale } = await params;
+  const messages = await getMessages();
 
-export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <title>PastePick - Smart Toothpaste Analyzer</title>
         <meta
@@ -30,11 +29,12 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" href="/192.png" />
       </head>
       <body className={inter.className} suppressHydrationWarning>
-      <MantineProvider theme={theme}>
-          <LanguageProvider>
-              {children}
-          </LanguageProvider>
-      </MantineProvider>
+        <MantineWrapper>
+          <NextIntlClientProvider messages={messages}>
+            <div className="main-content">{children}</div>
+            <Navigation />
+          </NextIntlClientProvider>
+        </MantineWrapper>
       </body>
     </html>
   );
