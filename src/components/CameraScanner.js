@@ -6,8 +6,6 @@ import {
   analyzeIngredients,
   sampleIngredientTexts,
 } from "../services/mockAnalysisService";
-import { useLanguage } from "../contexts/LanguageContext";
-import { useToast } from "../components/ToastProvider";
 
 export default function SimpleCameraScanner({ onClose, onCapture }) {
   const cameraInputRef = useRef(null);
@@ -21,8 +19,6 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
   const [currentStep, setCurrentStep] = useState("select"); // 'select', 'captured', 'analyzing', 'complete'
 
   // Hooks
-  const { t, translateIngredients } = useLanguage();
-  const { showSuccess, showError, showInfo, showWarning } = useToast();
 
   // Detect mobile device on component mount
   useEffect(() => {
@@ -61,15 +57,12 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
         cameraInputRef.current.setAttribute("capture", "environment");
         cameraInputRef.current.setAttribute("accept", "image/*");
         cameraInputRef.current.click();
-        showInfo(t("scanningInProgress"));
       } else {
-        showWarning(t("cameraWorksBesetMobile"));
         // Still allow desktop users to select files
         cameraInputRef.current.click();
       }
     } catch (error) {
       console.error("Camera error:", error);
-      showError(t("cameraError"));
     }
   };
 
@@ -79,10 +72,8 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
 
     try {
       galleryInputRef.current.click();
-      showInfo(t("chooseFromGallery"));
     } catch (error) {
       console.error("Gallery error:", error);
-      showError("Unable to open gallery");
     }
   };
 
@@ -91,7 +82,6 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
     const file = event.target.files[0];
 
     if (!file) {
-      showWarning("No file selected");
       return;
     }
 
@@ -111,12 +101,9 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
     reader.onload = (e) => {
       setCapturedImage(e.target.result);
       setCurrentStep("captured");
-      showSuccess(t("scanSuccessful"));
     };
 
-    reader.onerror = () => {
-      showError("Error reading image file");
-    };
+    reader.onerror = () => {};
 
     reader.readAsDataURL(file);
 
@@ -133,7 +120,6 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
 
     setIsAnalyzing(true);
     setCurrentStep("analyzing");
-    showInfo(t("analyzingImage"));
 
     try {
       // Simulate different ingredient texts including foreign languages
@@ -167,8 +153,6 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
       const translatedText = translateIngredients(randomSample);
       console.log("Translated to:", translatedText);
 
-      showInfo(t("processingResults"));
-
       // Simulate OCR processing delay
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
@@ -180,7 +164,7 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
         setCurrentStep("complete");
 
         // Show success message with score
-        const scoreMessage = `${t("analysisComplete")} - ${t("overallScore")}: ${result.analysis.overallScore}/10`;
+        const scoreMessage = `${result.analysis.overallScore}/10`;
         showSuccess(scoreMessage, 6000); // Show longer for important result
 
         // Create complete product data object
@@ -214,13 +198,13 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
       } else {
         // Handle analysis failure
         setCurrentStep("captured");
-        const errorMessage = result.error || t("scanError");
+        const errorMessage = result.error;
         showError(errorMessage);
         console.error("Analysis failed:", result.error);
       }
     } catch (error) {
       setCurrentStep("captured");
-      const errorMessage = `${t("scanError")}: ${error.message}`;
+      const errorMessage = `${error.message}`;
       showError(errorMessage);
       console.error("Analysis error:", error);
     } finally {
@@ -245,7 +229,6 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
 
     setCapturedImage(mockImageData);
     setCurrentStep("captured");
-    showSuccess("Demo: " + t("scanSuccessful"));
   };
 
   // Render different UI based on current step
@@ -269,18 +252,14 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
     <div className="text-center w-full max-w-sm">
       <div className="mb-8">
         <Camera className="mx-auto text-white mb-4" size={64} />
-        <h2 className="text-xl font-semibold text-white mb-2">
-          {t("scanIngredients")}
-        </h2>
-        <p className="text-gray-300 text-sm mb-4">{t("analyzeIngredients")}</p>
+        <h2 className="text-xl font-semibold text-white mb-2"></h2>
+        <p className="text-gray-300 text-sm mb-4"></p>
 
         {/* Mobile detection indicator */}
         {isMobile && (
           <div className="flex items-center justify-center space-x-2 mb-4">
             <Smartphone className="text-green-400" size={16} />
-            <span className="text-green-400 text-sm">
-              {t("mobileDetected")}
-            </span>
+            <span className="text-green-400 text-sm"></span>
           </div>
         )}
       </div>
@@ -292,7 +271,6 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 px-6 rounded-lg flex items-center justify-center space-x-3 font-semibold transition-colors shadow-lg"
         >
           <Camera size={24} />
-          <span>{isMobile ? t("openCamera") : t("takePhoto")}</span>
         </button>
 
         <button
@@ -300,7 +278,7 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
           className="w-full bg-white/20 hover:bg-white/30 text-white py-4 px-6 rounded-lg flex items-center justify-center space-x-3 font-semibold transition-colors border border-white/30"
         >
           <Image size={24} />
-          <span>{t("chooseFromGallery")}</span>
+          <span></span>
         </button>
       </div>
 
@@ -316,18 +294,9 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
 
       {/* Helpful instructions */}
       <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg">
-        <h3 className="text-white font-medium mb-2 text-sm">
-          📱 {t("scanningTips")}:
-        </h3>
+        <h3 className="text-white font-medium mb-2 text-sm"></h3>
         <ul className="text-white/80 text-xs space-y-1 text-left">
-          <li>• {t("scanTip1")}</li>
-          <li>• {t("scanTip2")}</li>
-          <li>• {t("scanTip3")}</li>
-          <li>• {t("scanTip4")}</li>
-          <li>• {t("scanTip5")}</li>
-          {!isMobile && (
-            <li className="text-yellow-300">• {t("cameraWorksBesetMobile")}</li>
-          )}
+          {!isMobile && <li className="text-yellow-300">• </li>}
         </ul>
       </div>
     </div>
@@ -348,16 +317,12 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
         <button
           onClick={retakePhoto}
           className="flex-1 py-3 px-4 bg-white/20 hover:bg-white/30 text-white rounded-lg font-medium transition-colors border border-white/30"
-        >
-          {t("retake")}
-        </button>
+        ></button>
         <button
           onClick={analyzeImage}
           disabled={isAnalyzing}
           className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50 transition-colors shadow-lg"
-        >
-          {t("analyzeIngredientsCTA")}
-        </button>
+        ></button>
       </div>
 
       <p className="text-white/80 text-sm text-center">
@@ -376,10 +341,8 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
           <Camera className="absolute inset-0 m-auto text-white" size={24} />
         </div>
 
-        <h2 className="text-xl font-semibold text-white mb-2">
-          {t("analyzing")}
-        </h2>
-        <p className="text-gray-300 text-sm mb-4">{t("processingResults")}</p>
+        <h2 className="text-xl font-semibold text-white mb-2"></h2>
+        <p className="text-gray-300 text-sm mb-4"></p>
       </div>
 
       {/* Progress steps */}
@@ -422,9 +385,7 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
           </svg>
         </div>
 
-        <h2 className="text-xl font-semibold text-white mb-2">
-          {t("analysisComplete")}
-        </h2>
+        <h2 className="text-xl font-semibold text-white mb-2"></h2>
 
         {analysisResult && (
           <div className="bg-white/10 backdrop-blur-sm p-4 rounded-lg mb-4">
@@ -456,7 +417,7 @@ export default function SimpleCameraScanner({ onClose, onCapture }) {
           >
             <X size={24} />
           </button>
-          <h1 className="text-white font-semibold">{t("scanToothpaste")}</h1>
+          <h1 className="text-white font-semibold"></h1>
           <div className="w-10"></div>
         </div>
       </div>
