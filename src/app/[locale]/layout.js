@@ -3,8 +3,9 @@ import "../globals.css";
 import "@mantine/core/styles.css";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { MantineWrapper } from "@/app/MantineWrapper.js";
-import Navigation from "@/components/navigation.js";
+
+import Navigation from "@/components/Navigation.js";
+import { ThemeProvider } from "@/components/ThemeProvider.js";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,13 +29,18 @@ export default async function RootLayout({ children, params }) {
         />
         <link rel="apple-touch-icon" href="/192.png" />
       </head>
-      <body className={inter.className} suppressHydrationWarning>
-        <MantineWrapper>
-          <NextIntlClientProvider messages={messages}>
+      <body suppressHydrationWarning>
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <div className="main-content">{children}</div>
             <Navigation />
-          </NextIntlClientProvider>
-        </MantineWrapper>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
