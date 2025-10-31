@@ -1,174 +1,139 @@
-"use client"
-import { useState } from 'react';
-import { Container, Stack, Text, Select, Button, Group, Divider } from '@mantine/core';
-import { Sun, Moon, Globe, Bug, Mail } from 'lucide-react';
-import { useRouter, usePathname } from 'next/navigation';
-import Navigation from "@/components/navigation.js";
-import {useLocale, useTranslations} from "next-intl";
+"use client";
+import { useEffect, useState } from "react";
+import { Sun, Moon, Globe, Bug, Mail } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-
-export default function SettingsPage() {
-  const [theme, setTheme] = useState('light');
+export default function Settings({ appVersion }) {
   const [language, setLanguage] = useState(useLocale());
   const router = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("home");
-  const t = useTranslations('settings');
+  const [mounted, setMounted] = useState(false);
+  const t = useTranslations("settings");
+
+  const { theme, setTheme } = useTheme();
 
   const changeLanguage = (locale) => {
     setLanguage(locale);
-    const pathWithoutLocale = pathname.replace(/^\/(en|fi|se)/, '');
+    const pathWithoutLocale = pathname.replace(/^\/(en|fi|se)/, "");
     router.push(`/${locale}${pathWithoutLocale}`);
   };
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
-      <Container size="sm" style={{ minHeight: '100vh', paddingTop: '4rem', paddingBottom: '4rem' }}>
-        <Stack gap="xl">
-          {/* Header */}
-          <div>
-            <Text size="2rem" fw={300} ta="center" style={{ letterSpacing: '-0.02em', marginBottom: '0.5rem' }}>
-              {t('title')}
-            </Text>
-            <Text size="sm" c="dimmed" ta="center">
-              {t('subtitle')}
-            </Text>
+    <div className="min-h-screen px-4 py-16">
+      <div className="max-w-xl mx-auto w-full flex flex-col gap-8">
+        {/* Header */}
+        <div>
+          <p className="text-4xl font-light text-center tracking-tight mb-2">
+            {t("title")}
+          </p>
+          <p className="text-sm text-muted-foreground text-center">
+            {t("subtitle")}
+          </p>
+        </div>
+
+        {/* Settings Options */}
+        <div className="flex flex-col gap-4 mt-4">
+          {/* Theme */}
+          <div className="flex gap-4 items-start p-3">
+            <div className="flex items-center justify-center p-2">
+              {mounted
+                ? theme === "dark"
+                  ? <Moon size={20} />
+                  : <Sun size={20} />
+                : <div className="w-5 h-5" />}
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium mb-2">{t("theme")}</p>
+              {mounted
+                ? <Select
+                    value={theme}
+                    onValueChange={(value) => setTheme(value)}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="light">Light</SelectItem>
+                      <SelectItem value="dark">Dark</SelectItem>
+                    </SelectContent>
+                  </Select>
+                : <div className="h-10 w-full rounded-md border border-input bg-background" />}
+            </div>
           </div>
 
-          {/* Settings Options */}
-          <Stack gap="md" mt="md">
+          {/* Language */}
+          <div className="flex gap-4 items-start p-3">
+            <div className="flex items-center justify-center p-2">
+              <Globe size={20} />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium mb-2">{t("language")}</p>
+              <Select
+                value={language}
+                onValueChange={(value) => changeLanguage(value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="en">English</SelectItem>
+                  <SelectItem value="fi">Suomi</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
 
-            {/* Theme */}
-            <Group gap="md" wrap="nowrap" p="sm">
-              <div style={{
-                padding: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
-              </div>
-              <div style={{ flex: 1 }}>
-                <Text fw={500} size="sm" mb={4}>Theme</Text>
-                <Select
-                    value={theme}
-                    onChange={(value) => setTheme(value || 'light')}
-                    data={[
-                      { value: 'light', label: 'Light' },
-                      { value: 'dark', label: 'Dark' },
-                    ]}
-                    size="sm"
-                    variant="default"
-                />
-              </div>
-            </Group>
+          <div className="border-t my-4" />
 
-            {/* Language */}
-            <Group gap="md" wrap="nowrap" p="sm" >
-              <div style={{
-                padding: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Globe size={20} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <Text fw={500} size="sm" mb={4}>Language</Text>
-                <Select
-                    value={language}
-                    onChange={(value) => changeLanguage(value || 'en')}
-                    data={[
-                      { value: 'en', label: 'English' },
-                      { value: 'fi', label: 'Suomi' },
-                    ]}
-                    size="sm"
-                    variant="default"
-                />
-              </div>
-            </Group>
+          {/* Support */}
+          <div className="flex gap-4 items-start p-3">
+            <div className="flex items-center justify-center p-2">
+              <Mail size={20} />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium mb-2">{t("support")}</p>
+              <Button variant="link" className="h-auto p-0 font-normal" asChild>
+                <a href="mailto:support@pastepick.com">support@pastepick.com</a>
+              </Button>
+            </div>
+          </div>
 
-            <Divider my="md" />
+          {/* Report Bug */}
+          <div className="flex gap-4 items-start p-3">
+            <div className="flex items-center justify-center p-2">
+              <Bug size={20} />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium mb-2">{t("report_bug")}</p>
+              <Button variant="link" className="h-auto p-0 font-normal" asChild>
+                <a href="blank" target="_blank" rel="noopener noreferrer">
+                  {t("report_bug_button")}
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
 
-            {/* Support */}
-            <Group gap="md" wrap="nowrap" p="sm">
-              <div style={{
-                padding: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Mail size={20} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <Text fw={500} size="sm" mb={4}>Support</Text>
-                <Button
-                    variant="subtle"
-                    size="sm" // Was 'xs'
-                    p={0}
-                    component="a"
-                    href="mailto:support@pastepick.com"
-                    styles={{
-                      root: {
-                        fontWeight: 400,
-                        height: 'auto',
-                        '&:hover': {
-                          backgroundColor: 'transparent',
-                          textDecoration: 'underline'
-                        }
-                      }
-                    }}
-                >
-                  support@pastepick.com
-                </Button>
-              </div>
-            </Group>
-
-            {/* Report Bug */}
-            <Group gap="md" wrap="nowrap" p="sm">
-              <div style={{
-                padding: '0.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <Bug size={20} />
-              </div>
-              <div style={{ flex: 1 }}>
-                <Text fw={500} size="sm" mb={4}>Report a bug</Text>
-                <Button
-                    variant="subtle"
-                    size="sm" // Was 'xs'
-                    p={0}
-                    component="a"
-                    href="blank"
-                    target="_blank"
-                    styles={{
-                      root: {
-                        fontWeight: 400,
-                        height: 'auto',
-                        '&:hover': {
-                          backgroundColor: 'transparent',
-                          textDecoration: 'underline'
-                        }
-                      }
-                    }}
-                >
-                  Submit feedback
-                </Button>
-              </div>
-            </Group>
-          </Stack>
-
-          {/* Version */}
-          <Text size="xs" c="dimmed" ta="center" mt="xl">
-            Version 1.0.0
-          </Text>
-        </Stack>
-        <Navigation
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-
-        />
-      </Container>
+        {/* Version */}
+        <p className="text-xs text-muted-foreground text-center mt-8">
+          {t("version")} {appVersion}
+        </p>
+      </div>
+    </div>
   );
 }
