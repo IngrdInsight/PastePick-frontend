@@ -63,7 +63,7 @@ export default function NewToothpasteForm() {
     formDataToSend.append("brand", formData.brand);
     formDataToSend.append("name", formData.name);
     formDataToSend.append("ingredients", JSON.stringify(ingredientsArray));
-    formDataToSend.append("image", imageFile);
+    formDataToSend.append("file", imageFile);
 
     try {
       const res = await fetch("http://localhost:3000/api/v1/toothpastes/new", {

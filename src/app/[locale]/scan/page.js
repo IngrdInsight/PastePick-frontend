@@ -44,18 +44,18 @@ export default function ScanProductPage() {
     setIsSubmitting(true);
 
     const formDataToSend = new FormData();
-    formDataToSend.append("image", imageFile);
+    formDataToSend.append("file", imageFile);
 
     try {
-      const res = await fetch("https://localhost:8000/api/search-by-image", {
+      const res = await fetch("http://localhost:8000/api/search-by-image", {
         method: "POST",
         body: formDataToSend,
       });
 
       if (res.ok) {
         const data = await res.json();
-        if (data.id) {
-          router.push(`/products/${data.id}`);
+        if (data.results.length > 0) {
+          router.push(`/products/${data.results[0].id}`);
         } else {
           router.push("/products");
         }
