@@ -23,6 +23,7 @@ export default function NewToothpasteForm() {
     name: "",
     ingredients: "",
   });
+  const BASE_URL = "http://server:3001/api";
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
@@ -66,7 +67,7 @@ export default function NewToothpasteForm() {
     formDataToSend.append("file", imageFile);
 
     try {
-      const res = await fetch("http://localhost:3000/api/v1/toothpastes/new", {
+      const res = await fetch(`${BASE_URL}/v1/toothpastes/new`, {
         method: "POST",
         body: formDataToSend,
       });

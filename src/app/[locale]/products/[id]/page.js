@@ -20,13 +20,12 @@ export default function ProductDetail() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const BASE_URL = "http://server:3001/api";
 
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(
-          `http://localhost:3000/api/v1/toothpastes/${id}`,
-        );
+        const res = await fetch(`${BASE_URL}/v1/toothpastes/${id}`);
         if (!res.ok) {
           if (res.status === 404) {
             setError("Product not found");

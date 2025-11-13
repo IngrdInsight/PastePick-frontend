@@ -47,10 +47,13 @@ export default function ScanProductPage() {
     formDataToSend.append("file", imageFile);
 
     try {
-      const res = await fetch("http://localhost:8000/api/search-by-image", {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const res = await fetch(
+        "http://server-fastapi:8000/api/search-by-image",
+        {
+          method: "POST",
+          body: formDataToSend,
+        },
+      );
 
       if (res.ok) {
         const data = await res.json();
