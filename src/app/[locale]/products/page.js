@@ -30,7 +30,7 @@ export default function SearchResults() {
   const [showFilters, setShowFilters] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const BASE_URL = "http://localhost:3000/api";
+  const BASE_URL = "http://server:3001/api";
 
   useEffect(() => {
     async function fetchProducts() {
