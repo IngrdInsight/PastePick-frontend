@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/IngrdInsight/PastePick-frontend/compare/v1.1.0...v1.2.0) (2025-11-13)
+
+
+### Features
+
+* add search by image page ([5eaa04e](https://github.com/IngrdInsight/PastePick-frontend/commit/5eaa04eee04b754058493103889770c1c097e542))
+
 ## [1.1.0](https://github.com/IngrdInsight/PastePick-frontend/compare/v1.0.0...v1.1.0) (2025-10-10)
 
 
