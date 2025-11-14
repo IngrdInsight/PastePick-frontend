@@ -33,7 +33,6 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-RUN corepack enable && corepack prepare pnpm@latest --activate
 
 # Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
@@ -47,4 +46,4 @@ COPY --from=builder /app/next.config.* ./
 EXPOSE 3000
 ENV HOSTNAME="0.0.0.0"
 ENV PORT=3000
-CMD ["pnpm", "start"]
+CMD ["node_modules/.bin/next", "start"]
