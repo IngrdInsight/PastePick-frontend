@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { NODE_BASE_URL } from "@/config.js";
 
 const filterOptions = [
   { value: "whitening", label: "Whitening" },
@@ -30,12 +31,11 @@ export default function SearchResults() {
   const [showFilters, setShowFilters] = useState(false);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const BASE_URL = "http://server:3001/api";
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch(`${BASE_URL}/v1/toothpastes`);
+        const res = await fetch(`${NODE_BASE_URL}/api/v1/toothpastes`);
         if (!res.ok) throw new Error("Failed to fetch products");
 
         const data = await res.json();

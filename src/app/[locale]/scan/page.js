@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useRouter } from "next/navigation";
+import { PYTHON_BASE_URL } from "@/config.js";
 
 export default function ScanProductPage() {
   const router = useRouter();
@@ -47,13 +48,10 @@ export default function ScanProductPage() {
     formDataToSend.append("file", imageFile);
 
     try {
-      const res = await fetch(
-        "http://server-fastapi:8000/api/search-by-image",
-        {
-          method: "POST",
-          body: formDataToSend,
-        },
-      );
+      const res = await fetch(`${PYTHON_BASE_URL}/api/search-by-image`, {
+        method: "POST",
+        body: formDataToSend,
+      });
 
       if (res.ok) {
         const data = await res.json();
