@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/IngrdInsight/PastePick-frontend/compare/v1.2.0...v1.3.0) (2025-11-21)
+
+
+### Features
+
+* add API call to fetch statistics data ([cfba3fa](https://github.com/IngrdInsight/PastePick-frontend/commit/cfba3fa5d2c4723643039bad4376f36e8ce9e937))
+* add global not found ([a6ed221](https://github.com/IngrdInsight/PastePick-frontend/commit/a6ed22198ed402fb999a48f21cd32e2fec452e2c))
+* add global not found ([b2055e5](https://github.com/IngrdInsight/PastePick-frontend/commit/b2055e5b3368cbd6c250a4c749f459ac51a3ba30))
+
 ## [1.2.0](https://github.com/IngrdInsight/PastePick-frontend/compare/v1.1.0...v1.2.0) (2025-11-13)
 
 
