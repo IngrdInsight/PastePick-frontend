@@ -13,6 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import { useParams, useRouter } from "next/navigation";
 import { NODE_BASE_URL } from "@/config.js";
+import { useTranslations } from "next-intl";
 
 export default function ProductDetail() {
   const [expandedId, setExpandedId] = useState(null);
@@ -21,6 +22,7 @@ export default function ProductDetail() {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const t = useTranslations("product_details");
 
   useEffect(() => {
     async function fetchProduct() {
@@ -67,9 +69,7 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-muted-foreground text-sm">
-          Loading product details...
-        </p>
+        <p className="text-muted-foreground text-sm">{t("loading")}</p>
       </div>
     );
   }
@@ -77,12 +77,10 @@ export default function ProductDetail() {
   if (error || !product) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen text-center">
-        <h1 className="text-2xl font-semibold mb-2">404 – Product Not Found</h1>
-        <p className="text-muted-foreground mb-4">
-          {error || "The product you’re looking for doesn’t exist."}
-        </p>
+        <p className="text-2xl font-semibold mb-2">{t("not_found_title")}</p>
+        <p className="text-muted-foreground mb-4">{t("not_found_message")}</p>
         <Button variant="outline" onClick={() => router.push("/")}>
-          Go Back Home
+          {t("go_back_home")}
         </Button>
       </div>
     );
@@ -95,7 +93,7 @@ export default function ProductDetail() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-6">
           <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ChevronLeft size={16} className="mr-1" />
-            Back
+            {t("back")}
           </Button>
         </div>
       </div>
@@ -126,7 +124,7 @@ export default function ProductDetail() {
 
                   <div className="py-4 sm:py-6 border-y">
                     <div className="text-sm text-muted-foreground mb-3">
-                      Overall Safety Score
+                      {t("overall_safety_score")}
                     </div>
                     <div className="flex items-center gap-4">
                       <div
@@ -139,7 +137,7 @@ export default function ProductDetail() {
                           {getScoreLabel(product.overall_score)}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          out of 10
+                          {t("out_of_10")}
                         </div>
                       </div>
                     </div>
@@ -147,12 +145,14 @@ export default function ProductDetail() {
 
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Category</span>
-                      <span className="font-medium">categories</span>
+                      <span className="text-muted-foreground">
+                        {t("category")}
+                      </span>
+                      <span className="font-medium">{t("categories")}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">
-                        Last Updated
+                        {t("last_updated")}
                       </span>
                       <span className="font-medium">{product.updated_at}</span>
                     </div>
@@ -166,11 +166,11 @@ export default function ProductDetail() {
           <div className="lg:col-span-2 space-y-6 sm:space-y-8">
             <div>
               <div className="flex items-baseline justify-between mb-4 sm:mb-6">
-                <h2 className="text-xl sm:text-2xl font-medium">
-                  Ingredients ({product.ingredients.length})
-                </h2>
+                <p className="text-xl sm:text-2xl font-medium">
+                  {t("ingredients_title")} ({product.ingredients.length})
+                </p>
                 <p className="text-xs sm:text-sm text-muted-foreground hidden sm:block">
-                  Tap to view details
+                  {t("tap_to_view_details")}
                 </p>
               </div>
 
@@ -216,7 +216,7 @@ export default function ProductDetail() {
                                 className="text-muted-foreground flex-shrink-0"
                               />
                               <p className="font-medium text-sm sm:text-base">
-                                Known Concerns
+                                {t("known_concerns")}
                               </p>
                             </div>
                             <ul className="space-y-2 pl-0 sm:pl-7">
@@ -232,7 +232,7 @@ export default function ProductDetail() {
                                 className="text-muted-foreground flex-shrink-0"
                               />
                               <p className="font-medium text-sm sm:text-base">
-                                Function & Benefits
+                                {t("benefits_title")}
                               </p>
                             </div>
                             <ul className="space-y-2 pl-0 sm:pl-7">
@@ -243,7 +243,7 @@ export default function ProductDetail() {
                           {/* Safety Information */}
                           <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
                             <p className="font-medium mb-2 text-sm">
-                              Safety Assessment
+                              {t("safety_assessment")}
                             </p>
                             <p className="text-sm text-muted-foreground leading-relaxed">
                               {ingredient.regulatory_notes}
@@ -253,7 +253,7 @@ export default function ProductDetail() {
                           {/* Data Sources */}
                           <div className="bg-muted/50 rounded-lg p-3 sm:p-4">
                             <p className="font-medium mb-3 text-sm">
-                              Evidence level: {ingredient.evidence_level}
+                              {t("evidence_level")}: {ingredient.evidence_level}
                             </p>
                             <div className="flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3">
                               <a
@@ -293,18 +293,18 @@ export default function ProductDetail() {
             {/* Score Reference */}
             <Card className="bg-muted/30">
               <CardContent className="p-4 sm:p-6">
-                <h3 className="font-medium mb-4 text-sm sm:text-base">
-                  How to Read Scores
-                </h3>
+                <p className="font-medium mb-4 text-sm sm:text-base">
+                  {t("score_reference_title")}
+                </p>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xl sm:text-2xl font-medium">1</span>
                   <div className="flex-1 mx-4 sm:mx-6 h-1.5 bg-gradient-to-r from-red-300 via-gray-300 to-primary rounded-full" />
                   <span className="text-xl sm:text-2xl font-medium">10</span>
                 </div>
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>Low Concern</span>
-                  <span>Moderate</span>
-                  <span>High Concern</span>
+                  <span>{t("low_concern")}</span>
+                  <span>{t("moderate")}</span>
+                  <span>{t("high_concern")}</span>
                 </div>
               </CardContent>
             </Card>

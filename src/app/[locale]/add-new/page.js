@@ -14,9 +14,11 @@ import {
 } from "@/components/ui/field";
 import { useRouter } from "next/navigation";
 import { NODE_BASE_URL } from "@/config.js";
+import { useTranslations } from "next-intl";
 
 export default function NewToothpasteForm() {
   const router = useRouter();
+  const t = useTranslations("add_new");
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [formData, setFormData] = useState({
@@ -48,7 +50,7 @@ export default function NewToothpasteForm() {
       !formData.ingredients ||
       !imageFile
     ) {
-      alert("Please fill in all fields");
+      alert(t("error_fill_all"));
       return;
     }
     const ingredientsArray = Array.from(
@@ -76,11 +78,11 @@ export default function NewToothpasteForm() {
         router.push("/products");
       } else {
         const errorData = await res.json().catch(() => ({}));
-        alert("Failed");
+        alert(t("error_submit_failed"));
       }
     } catch (err) {
       console.error(err);
-      alert("Network error — please try again later.");
+      alert(t("error_network"));
     }
   };
 
@@ -95,30 +97,30 @@ export default function NewToothpasteForm() {
             onClick={() => router.back()}
           >
             <ChevronLeft size={16} className="mr-1" />
-            Back
+            {t("back")}
           </Button>
 
           <p className="text-4xl font-light text-center tracking-tight mb-2">
-            Add New Toothpaste
+            {t("title")}
           </p>
           <p className="text-sm text-muted-foreground text-center">
-            Enter product details to analyze ingredients
+            {t("subtitle")}
           </p>
         </div>
 
         <FieldGroup>
           <Card className="bg-background">
             <CardContent className="p-6">
-              <FieldLabel className="mb-3 block">Product Image</FieldLabel>
+              <FieldLabel className="mb-3 block">{t("image_label")}</FieldLabel>
 
               {!imagePreview
                 ? <label className="border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors">
                     <Upload size={32} className="text-muted-foreground mb-3" />
                     <p className="text-sm font-medium mb-1">
-                      Upload product image
+                      {t("image_upload_title")}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      PNG, JPG up to 10MB
+                      {t("image_upload_description")}
                     </p>
                     <input
                       type="file"
@@ -150,10 +152,10 @@ export default function NewToothpasteForm() {
 
           <FieldSet>
             <Field>
-              <FieldLabel htmlFor="brand">Brand</FieldLabel>
+              <FieldLabel htmlFor="brand">{t("brand_label")}</FieldLabel>
               <Input
                 id="brand"
-                placeholder="e.g., Colgate"
+                placeholder={t("brand_placeholder")}
                 value={formData.brand}
                 onChange={(e) =>
                   setFormData({ ...formData, brand: e.target.value })
@@ -162,10 +164,10 @@ export default function NewToothpasteForm() {
             </Field>
 
             <Field>
-              <FieldLabel htmlFor="name">Product Name</FieldLabel>
+              <FieldLabel htmlFor="name">{t("name_label")}</FieldLabel>
               <Input
                 id="name"
-                placeholder="e.g., Total Advanced Whitening"
+                placeholder={t("name_placeholder")}
                 value={formData.name}
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
@@ -176,14 +178,15 @@ export default function NewToothpasteForm() {
 
           <FieldSet>
             <Field>
-              <FieldLabel htmlFor="ingredients">Ingredients List</FieldLabel>
+              <FieldLabel htmlFor="ingredients">
+                {t("ingredients_label")}
+              </FieldLabel>
               <FieldDescription>
-                Enter the full ingredients list as shown on the product
-                packaging. Separate ingredients with commas.
+                {t("ingredients_description")}
               </FieldDescription>
               <Textarea
                 id="ingredients"
-                placeholder="e.g., Sodium Fluoride, Sorbitol, Water, Hydrated Silica, Glycerin, PEG-12..."
+                placeholder={t("ingredients_placeholder")}
                 value={formData.ingredients}
                 onChange={(e) =>
                   setFormData({ ...formData, ingredients: e.target.value })
@@ -195,8 +198,8 @@ export default function NewToothpasteForm() {
           </FieldSet>
 
           <Field orientation="vertical">
-            <Button onClick={handleSubmit}>Submit</Button>
-            <Button variant="outline">Cancel</Button>
+            <Button onClick={handleSubmit}>{t("submit")}</Button>
+            <Button variant="outline">{t("cancel")}</Button>
           </Field>
         </FieldGroup>
       </div>

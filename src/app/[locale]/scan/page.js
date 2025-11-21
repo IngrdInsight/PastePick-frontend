@@ -6,9 +6,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { useRouter } from "next/navigation";
 import { PYTHON_BASE_URL } from "@/config.js";
+import { useTranslations } from "next-intl";
 
 export default function ScanProductPage() {
   const router = useRouter();
+  const t = useTranslations("scan");
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -38,7 +40,7 @@ export default function ScanProductPage() {
 
   const handleSubmit = async () => {
     if (!imageFile) {
-      alert("Please select or capture an image");
+      alert(t("error_no_image"));
       return;
     }
 
@@ -61,11 +63,11 @@ export default function ScanProductPage() {
           router.push("/products");
         }
       } else {
-        alert("Product not found");
+        alert(t("error_product_not_found"));
       }
     } catch (err) {
       console.error(err);
-      alert("Network error — please try again later.");
+      alert(t("error_network"));
     } finally {
       setIsSubmitting(false);
     }
@@ -82,28 +84,30 @@ export default function ScanProductPage() {
             onClick={() => router.back()}
           >
             <ChevronLeft size={16} className="mr-1" />
-            Back
+            {t("back")}
           </Button>
 
           <p className="text-4xl font-light text-center tracking-tight mb-2">
-            Scan Product
+            {t("title")}
           </p>
           <p className="text-sm text-muted-foreground text-center">
-            Upload or capture an image to identify the product
+            {t("subtitle")}
           </p>
         </div>
 
         <Card className="bg-background">
           <CardContent className="p-6">
-            <FieldLabel className="mb-3 block">Product Image</FieldLabel>
+            <FieldLabel className="mb-3 block">{t("image_label")}</FieldLabel>
 
             {!imagePreview
               ? <div className="space-y-3">
                   <label className="border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors">
                     <Camera size={32} className="text-muted-foreground mb-3" />
-                    <p className="text-sm font-medium mb-1">Take Photo</p>
+                    <p className="text-sm font-medium mb-1">
+                      {t("camera_title")}
+                    </p>
                     <p className="text-xs text-muted-foreground">
-                      Use your camera to capture
+                      {t("camera_description")}
                     </p>
                     <input
                       ref={cameraInputRef}
@@ -118,10 +122,10 @@ export default function ScanProductPage() {
                   <label className="border-2 border-dashed rounded-lg p-8 flex flex-col items-center justify-center cursor-pointer hover:bg-muted/50 transition-colors">
                     <Upload size={32} className="text-muted-foreground mb-3" />
                     <p className="text-sm font-medium mb-1">
-                      Upload from Device
+                      {t("upload_title")}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      PNG, JPG up to 10MB
+                      {t("upload_description")}
                     </p>
                     <input
                       ref={fileInputRef}
@@ -155,10 +159,10 @@ export default function ScanProductPage() {
 
         <div className="flex flex-col gap-2">
           <Button onClick={handleSubmit} disabled={isSubmitting}>
-            {isSubmitting ? "Scanning..." : "Scan Product"}
+            {isSubmitting ? t("submit_loading") : t("submit")}
           </Button>
           <Button variant="outline" onClick={() => router.back()}>
-            Cancel
+            {t("cancel")}
           </Button>
         </div>
       </div>

@@ -3,25 +3,27 @@
 import { Button } from "@/components/ui/button";
 import { Home, ScanLine, Settings, Database } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function Navigation({}) {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
   const locale = params?.locale || "en";
+  const t = useTranslations("navigation");
 
   const tabs = [
-    { id: "home", label: "Home", icon: Home, href: `/${locale}` },
-    { id: "scan", label: "Scan", icon: ScanLine, href: `/${locale}/scan` },
+    { id: "home", label: t("home"), icon: Home, href: `/${locale}` },
+    { id: "scan", label: t("scan"), icon: ScanLine, href: `/${locale}/scan` },
     {
       id: "products",
-      label: "Products",
+      label: t("products"),
       icon: Database,
       href: `/${locale}/products`,
     },
     {
       id: "settings",
-      label: "Settings",
+      label: t("settings"),
       icon: Settings,
       href: `/${locale}/settings`,
     },

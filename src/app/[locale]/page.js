@@ -5,13 +5,14 @@ import Link from "next/link";
 import { Search, Info, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useTranslations } from "next-intl";
 
 export default function Home() {
+  const t = useTranslations("home");
   const [searchValue, setSearchValue] = useState("");
-
   const stats = [
-    { value: "135", label: "Toothpastes" },
-    { value: "191", label: "Ingredients" },
+    { value: "135", label: t("toothpastes") },
+    { value: "191", label: t("ingredients") },
   ];
 
   return (
@@ -29,7 +30,7 @@ export default function Home() {
               size={24}
             />
             <Input
-              placeholder="Search for an ingredient, brand or product"
+              placeholder={t("search_placeholder")}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               className="pl-12 h-12 rounded-full"
@@ -41,13 +42,13 @@ export default function Home() {
             <Link href="/about-scores">
               <Button variant="outline" className="hover:cursor-pointer">
                 <Info size={18} className="mr-2" />
-                How we determine scores
+                {t("how_we_determine_scores")}
               </Button>
             </Link>
             <Link href="/add-new">
               <Button variant="outline" className="hover:cursor-pointer">
                 <Plus size={18} className="mr-2" />
-                Add your product
+                {t("add_your_product")}
               </Button>
             </Link>
           </div>

@@ -6,15 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import Link from "next/link";
 import { NODE_BASE_URL } from "@/config.js";
+import { useTranslations } from "next-intl";
 
 const filterOptions = [
   { value: "whitening", label: "Whitening" },
@@ -24,13 +18,22 @@ const filterOptions = [
   { value: "kids", label: "Kids Friendly" },
 ];
 
+const filterToField = {
+  whitening: "is_whitening",
+  sensitivity: "for_sensitive_teeth",
+  natural: "is_natural",
+  fluoride: "is_fluoride_free",
+  kids: "for_kids",
+};
+
 export default function SearchResults() {
   const [searchValue, setSearchValue] = useState("");
   const [sortBy, setSortBy] = useState("score");
   const [activeFilters, setActiveFilters] = useState([]);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const t = useTranslations("all_products");
 
   useEffect(() => {
     async function fetchProducts() {
@@ -56,6 +59,27 @@ export default function SearchResults() {
     return "bg-primary";
   };
 
+  const toggleFilter = (filterValue) => {
+    setActiveFilters((prev) =>
+      prev.includes(filterValue)
+        ? prev.filter((f) => f !== filterValue)
+        : [...prev, filterValue],
+    );
+  };
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      searchValue === "" ||
+      product.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+      product.brand.toLowerCase().includes(searchValue.toLowerCase());
+
+    const matchesFilters =
+      activeFilters.length === 0 ||
+      activeFilters.every((filter) => product[filterToField[filter]] === true);
+
+    return matchesSearch && matchesFilters;
+  });
+
   return (
     <div className="max-w-7xl mx-auto p-6">
       <div className="flex flex-col gap-6">
@@ -67,30 +91,17 @@ export default function SearchResults() {
               size={20}
             />
             <Input
-              placeholder="Search toothpastes, brands, or ingredients"
+              placeholder={t("search_placeholder")}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               className="pl-10 rounded-full"
             />
           </div>
           <div className="flex gap-2 justify-end">
-            <Select>
-              <SelectTrigger className="w-[200px]">
-                <SelectValue placeholder="Search toothpastes" />
-              </SelectTrigger>
-              <SelectContent className="max-h-30">
-                <SelectItem>All</SelectItem>
-                <SelectItem>For Kids</SelectItem>
-                <SelectItem>Whitening</SelectItem>
-                <SelectItem>For Kids</SelectItem>
-                <SelectItem>For Kids</SelectItem>
-              </SelectContent>
-            </Select>
-
             <Link href="/add-new">
               <Button size="sm" className="rounded-full hover:cursor-pointer">
                 <Plus size={16} className="mr-2" />
-                New Product
+                {t("new_product")}
               </Button>
             </Link>
           </div>
@@ -99,9 +110,9 @@ export default function SearchResults() {
         {/* Filters */}
         {showFilters && (
           <Card>
-            <CardContent className="pt-6">
+            <CardContent>
               <div className="flex flex-col gap-3">
-                <div className="text-sm font-medium">Filter by:</div>
+                <div className="text-sm font-medium">{t("filter_by")}</div>
                 <div className="flex flex-wrap gap-2">
                   {filterOptions.map((filter) => (
                     <Badge
@@ -126,13 +137,13 @@ export default function SearchResults() {
         {/* Results Header */}
         <div className="flex justify-between items-center">
           <div className="text-sm text-muted-foreground">
-            About {products.length} results
+            {t("about_results", { count: filteredProducts.length })}
           </div>
         </div>
 
         {/* Results Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <Card
               key={product.id}
               className="overflow-hidden transition-all duration-200 ease-in-out hover:shadow-sm hover:scale-[1.02]"
@@ -150,7 +161,7 @@ export default function SearchResults() {
                     <Badge
                       className={`w-fit ${getScoreColor(product.overall_score)}`}
                     >
-                      Score {product.overall_score}
+                      {t("score")} {product.overall_score}
                     </Badge>
                     <div className="font-medium line-clamp-2">
                       {product.brand}
