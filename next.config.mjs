@@ -66,7 +66,9 @@ const runtimeCaching = [
 
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  experimental: { globalNotFound: true },
+};
 
 export default withPWA({
   dest: "public",
