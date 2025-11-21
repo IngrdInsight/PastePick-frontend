@@ -1,18 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Search, Info, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTranslations } from "next-intl";
+import { NODE_BASE_URL } from "@/config.js";
 
 export default function Home() {
   const t = useTranslations("home");
   const [searchValue, setSearchValue] = useState("");
+  const [statsData, setStatsData] = useState({});
+  useEffect(() => {
+    async function fetchStats() {
+      try {
+        const res = await fetch(`${NODE_BASE_URL}/api/v1/stats`);
+        if (!res.ok) {
+          return;
+        }
+
+        const data = await res.json();
+        if (data?.data) {
+          setStatsData(data.data);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+      }
+    }
+
+    fetchStats();
+  }, []);
+
   const stats = [
-    { value: "135", label: t("toothpastes") },
-    { value: "191", label: t("ingredients") },
+    { value: statsData.total_toothpastes || 0, label: t("toothpastes") },
+    { value: statsData.total_ingredients || 0, label: t("ingredients") },
   ];
 
   return (
