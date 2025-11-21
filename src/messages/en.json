@@ -1,4 +1,81 @@
 {
+  "home": {
+    "search_placeholder": "Search for an ingredient, brand or product",
+    "how_we_determine_scores": "How we determine scores",
+    "add_your_product": "Add your product",
+    "toothpastes": "Toothpastes",
+    "ingredients": "Ingredients"
+  },
+
+  "navigation": {
+    "home": "Home",
+    "scan": "Scan",
+    "products": "Products",
+    "settings": "Settings"
+  },
+
+  "not_found": {
+    "title": "Page Not Found",
+    "description": "The page you're looking for doesn't exist or has been moved.",
+    "go_home": "Go Home",
+    "search_products": "Search Products",
+    "go_back": "Go back"
+  },
+
+  "all_products": {
+    "search_placeholder": "Search toothpastes, brands, or ingredients",
+    "select_placeholder": "Search toothpastes",
+    "all": "All",
+    "for_kids": "For Kids",
+    "whitening": "Whitening",
+
+    "new_product": "New Product",
+
+    "filter_by": "Filter by:",
+    "filter_whitening": "Whitening",
+    "filter_sensitivity": "For Sensitive Teeth",
+    "filter_natural": "Natural Ingredients",
+    "filter_fluoride": "Fluoride-Free",
+    "filter_kids": "Kids Friendly",
+
+    "about_results": "About {count} results",
+
+    "score": "Score"
+  },
+
+  "product_details": {
+    "loading": "Loading product details...",
+    "not_found_title": "404 – Product Not Found",
+    "not_found_message": "The product you’re looking for doesn’t exist.",
+    "go_back_home": "Go Back Home",
+    "back": "Back",
+
+    "overall_safety_score": "Overall Safety Score",
+    "out_of_10": "out of 10",
+
+    "category": "Category",
+    "categories": "categories",
+    "last_updated": "Last Updated",
+
+    "ingredients_title": "Ingredients",
+    "tap_to_view_details": "Tap to view details",
+
+    "known_concerns": "Known Concerns",
+    "benefits_title": "Function & Benefits",
+    "safety_assessment": "Safety Assessment",
+
+    "evidence_level": "Evidence level",
+
+    "cosing": "Cosing",
+    "echa": "Echa",
+    "pubchem": "PubChem",
+
+    "score_reference_title": "How to Read Scores",
+    "low_concern": "Low Concern",
+    "moderate": "Moderate",
+    "high_concern": "High Concern"
+  },
+
   "settings": {
     "title": "Settings",
     "subtitle": "Customize your experience",
@@ -18,5 +95,82 @@
     "report_bug_button": "Submit feedback",
 
     "version": "Version"
+  },
+
+  "about_scores": {
+    "title": "About Scoring",
+    "subtitle": "Understanding how we evaluate toothpaste ingredients",
+
+    "intro_text": "Some short information should be written here for sure Some short information should be written here for sure Some short information should be written here for sure",
+
+    "score_scale_title": "Score Scale",
+    "score_scale_range_start": "0",
+    "score_scale_range_end": "10",
+    "score_scale_description": "0 = Not recommended · 10 = Highly beneficial",
+
+    "factors_title": "Scoring is determined by:",
+
+    "factor_data_source_title": "Data Source Quality",
+    "factor_data_source_description": "Credibility and reliability of scientific databases, regulatory bodies, and peer-reviewed sources",
+
+    "factor_research_volume_title": "Research Volume",
+    "factor_research_volume_description": "Quantity and consistency of studies supporting or questioning ingredient safety and efficacy",
+
+    "factor_methodology_title": "Study Methodology",
+    "factor_methodology_description": "Type and quality of research: clinical trials, meta-analyses, regulatory assessments, and long-term safety data"
+  },
+
+  "add_new": {
+    "title": "Add New Toothpaste",
+    "subtitle": "Enter product details to analyze ingredients",
+
+    "back": "Back",
+
+    "image_label": "Product Image",
+    "image_upload_title": "Upload product image",
+    "image_upload_description": "PNG, JPG up to 10MB",
+    "remove_image": "Remove image",
+
+    "brand_label": "Brand",
+    "brand_placeholder": "e.g., Colgate",
+
+    "name_label": "Product Name",
+    "name_placeholder": "e.g., Total Advanced Whitening",
+
+    "ingredients_label": "Ingredients List",
+    "ingredients_description": "Enter the full ingredients list as shown on the product packaging. Separate ingredients with commas.",
+    "ingredients_placeholder": "e.g., Sodium Fluoride, Sorbitol, Water, Hydrated Silica, Glycerin, PEG-12...",
+
+    "submit": "Submit",
+    "cancel": "Cancel",
+
+    "error_fill_all": "Please fill in all fields",
+    "error_network": "Network error — please try again later.",
+    "error_submit_failed": "Failed"
+  },
+
+  "scan": {
+    "title": "Scan Product",
+    "subtitle": "Upload or capture an image to identify the product",
+
+    "back": "Back",
+
+    "image_label": "Product Image",
+
+    "camera_title": "Take Photo",
+    "camera_description": "Use your camera to capture",
+
+    "upload_title": "Upload from Device",
+    "upload_description": "PNG, JPG up to 10MB",
+
+    "remove_image": "Remove image",
+
+    "submit": "Scan Product",
+    "submit_loading": "Scanning...",
+    "cancel": "Cancel",
+
+    "error_no_image": "Please select or capture an image",
+    "error_product_not_found": "Product not found",
+    "error_network": "Network error — please try again later."
   }
 }
