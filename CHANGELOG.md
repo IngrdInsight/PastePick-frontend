@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/IngrdInsight/PastePick-frontend/compare/v1.3.0...v1.3.1) (2025-12-01)
+
+
+### Bug Fixes
+
+* Integrate search parameters into SearchResults component ([#20](https://github.com/IngrdInsight/PastePick-frontend/issues/20)) ([1102848](https://github.com/IngrdInsight/PastePick-frontend/commit/11028481a45db5a282e4096f090f7c0e53a60649))
+* search feature in Home component ([#21](https://github.com/IngrdInsight/PastePick-frontend/issues/21)) ([741115a](https://github.com/IngrdInsight/PastePick-frontend/commit/741115a5e3b2446db286ef6c2d757c8584a1130c))
+
 ## [1.3.0](https://github.com/IngrdInsight/PastePick-frontend/compare/v1.2.0...v1.3.0) (2025-11-21)
 
 
