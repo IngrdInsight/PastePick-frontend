@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Search, Info, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { NODE_BASE_URL } from "@/config.js";
 
 export default function Home() {
   const t = useTranslations("home");
+  const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const [statsData, setStatsData] = useState({});
   useEffect(() => {
@@ -32,6 +34,15 @@ export default function Home() {
 
     fetchStats();
   }, []);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      router.push(`/products?q=${encodeURIComponent(searchValue)}`);
+    } else {
+      router.push('/products');
+    }
+  };
 
   const stats = [
     { value: statsData.total_toothpastes || 0, label: t("toothpastes") },
@@ -56,6 +67,11 @@ export default function Home() {
               placeholder={t("search_placeholder")}
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch(e);
+                }
+              }}
               className="pl-12 h-12 rounded-full"
             />
           </div>
