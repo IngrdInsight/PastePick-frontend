@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { NODE_BASE_URL } from "@/config.js";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation.js";
 
 const filterOptions = [
   { value: "whitening", label: "Whitening" },
@@ -27,7 +28,8 @@ const filterToField = {
 };
 
 export default function SearchResults() {
-  const [searchValue, setSearchValue] = useState("");
+  const searchParams = useSearchParams();
+  const [searchValue, setSearchValue] = useState(searchParams.get('q') || "");
   const [sortBy, setSortBy] = useState("score");
   const [activeFilters, setActiveFilters] = useState([]);
   const [showFilters, setShowFilters] = useState(true);
